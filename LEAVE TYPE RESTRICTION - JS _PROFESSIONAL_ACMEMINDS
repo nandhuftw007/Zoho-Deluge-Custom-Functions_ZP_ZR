@@ -1,0 +1,28 @@
+x = Collection();
+from_date = recordDetails.get("From");
+upload = recordDetails.get("Certificate_s");
+month_of_leave_start = from_date.month();
+get_employee = zoho.people.getRecordByID("P_Employee",eid.toLong());
+get_dob = get_employee.get("Date_of_birth");
+month_of_birth = get_dob.month();
+day_of_leave_start = from_date.getDayOfWeek();
+if(leave_type == "Birthday leave" || leave_type == "Birthday leave (Notice Period)" || leave_type == "Birthday leave (Probation)")
+{
+if(month_of_leave_start != month_of_birth)
+{
+ x.insert("er":"Birthday leave can only be taken during the birthday month.");
+}
+}
+if(leave_type == "Sick Leave" || leave_type == "Sick Leave (Notice Period)" || leave_type == "Sick Leave (Probation)")
+{
+if(day_of_leave_start == 2 || day_of_leave_start == 6)
+{
+ if(upload == "")
+ {
+ 	x.insert("er":"Certificates are mandatory");
+ }
+}
+}
+message_errors = Collection();
+message_errors.insert("errors":x);
+return message_errors;
